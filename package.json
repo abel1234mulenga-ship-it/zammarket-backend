@@ -2,7 +2,9 @@
   "dependencies": {
     "cors": "^2.8.6",
     "dotenv": "^17.3.1",
-    "express": "^5.2.1"
+    "express": "^5.2.1",
+    "mongodb": "^7.1.0",
+    "mongoose": "^9.3.1"
   },
   "name": "zammarket-backend",
   "version": "1.0.0",
@@ -14,5 +16,13 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs"
+  "type": "commonjs",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abel1234mulenga-ship-it/zammarket-backend.git"
+  },
+  "bugs": {
+    "url": "https://github.com/abel1234mulenga-ship-it/zammarket-backend/issues"
+  },
+  "homepage": "https://github.com/abel1234mulenga-ship-it/zammarket-backend#readme"
 }
