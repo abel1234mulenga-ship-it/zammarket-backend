@@ -3,47 +3,50 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const Product = require('./models/Product');
 
 const app = express();
+
 app.use(cors());
 app.use(express.json());
 
-// MongoDB Connection
-const mongoURI = process.env.MONGO_URI;
+// MongoDB connection
+const mongoURI = process.env.MONGO_URL;
 
 mongoose.connect(mongoURI)
   .then(() => console.log("MongoDB connected ✅"))
   .catch(err => console.log("MongoDB error:", err));
 
-// Routes
+// Simple test route
 app.get("/", (req, res) => {
   res.send("ZamMarket backend is running 🚀");
 });
 
-// GET all products
-app.get("/products", async (req, res) => {
+// Example schema
+const OrderSchema = new mongoose.Schema({
+  name: String,
+  product: String,
+  location: String
+});
+
+const Order = mongoose.model("Order", OrderSchema);
+
+// Add order
+app.post("/add-order", async (req, res) => {
   try {
-    const products = await Product.find({});
-    res.json(products);
+    const newOrder = new Order(req.body);
+    await newOrder.save();
+    res.json({ message: "Order saved successfully ✅" });
   } catch (err) {
-    res.status(500).json({ error: "Failed to fetch products" });
+    res.status(500).json({ error: err.message });
   }
 });
 
-// ADD product
-app.post("/products", async (req, res) => {
-  try {
-    const product = new Product(req.body);
-    await product.save();
-    res.status(201).json(product);
-  } catch (err) {
-    res.status(400).json({ error: err.message });
-  }
+// Get all orders
+app.get("/orders", async (req, res) => {
+  const orders = await Order.find();
+  res.json(orders);
 });
 
+// PORT (VERY IMPORTANT FOR RENDER)
 const PORT = process.env.PORT || 3000;
-
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+app.listen(PORT, () => console.log("Server running 🚀"));
